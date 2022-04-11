@@ -18,11 +18,11 @@ const firebaseConfig = {
 };
 
 //init firebase app
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 //init service
 const db = getFirestore();
-
+console.log("DB", db);
 //colection ref
 const colRef = collection(db, "information");
 // get collection data
@@ -36,29 +36,55 @@ getDocs(colRef)
     snapshot.docs.forEach((doc) => {
       information.push({ ...doc.data(), id: doc.id });
     });
-    console.log(information);
+    console.log("information", information);
   })
   .catch((err) => {
     console.log(err.message);
   });
 
 // adding documents
-const addBookForm = document.querySelector(".add");
-addBookForm.addEventListener("submit", (e) => {
+const addInforForm = document.querySelector(".add");
+addInforForm.addEventListener("submit", (e) => {
   e.preventDefault();
   addDoc(colRef, {
-    // title: addBookForm.title.value,
-    // author: addBookForm.author.value,
+    account_number: addInforForm.account_number.value,
+    email: addInforForm.email.value,
+    name: addInforForm.name.value,
+    phone_number: addInforForm.phone_number.value,
+    year_of_birth: addInforForm.year_of_birth.value,
   }).then(() => {
-    addBookForm.reset();
+    alert("Thành công");
+    addInforForm.reset();
   });
 });
+
+// upload image
+
+function uploadImage() {
+  const ref = firebase.storage().ref();
+  const file = document.querySelector("#photo").files[0];
+  const name = new Date() + "-" + file.name;
+  const metadata = {
+    contentType: file.type,
+  };
+
+  const task = ref.child(name).put(file, metadata);
+  task
+    .then((snapshot) => snapshot.ref.getDownloadURL())
+    .then((url) => {
+      console.log("URL:", url);
+      alert("Image Upload Successful");
+      const image = document.querySelector("#image");
+      image.src = url;
+    });
+}
+
 // deleting documents
-const deleteBookForm = document.querySelector(".delete");
-deleteBookForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const docRef = doc(db, "books", deleteBookForm.id.value);
-  deleteDoc(docRef).then(() => {
-    deleteBookForm.reset();
-  });
-});
+// const deleteInforForm = document.querySelector(".delete");
+// deleteInforForm.addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   const docRef = doc(db, "information", deleteInforForm.id.value);
+//   deleteDoc(docRef).then(() => {
+//     deleteInforForm.reset();
+//   });
+// });
