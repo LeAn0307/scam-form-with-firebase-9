@@ -64,9 +64,9 @@ font-size: inherit;
     text-align: left;
 }
 #myimg, #myimg2{
- 
-    height: 200px;
-    width: 200px;
+margin-top: 20px;
+    height: 400px;
+width: 560px;
     border: 2px rgb(114, 114, 117) solid;
     border-radius: 11px;
 }
@@ -103,4 +103,17 @@ text-decoration: none;
 }
 .bg{
     width: 100%;
+}
+/* ///////footer */
+.footer{
+    margin-top: 50px;
+    height: 60px;
+    width: 100%;
+    background-color: rgb(255, 102, 0);
+}
+.text{
+    text-align: center;
+    margin: auto;
+    padding-top: 20px;
+    color: white;
 }

@@ -23257,7 +23257,8 @@ const firebaseConfig = {
 };
 
 //init firebase app
-(0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(firebaseConfig);
+// initializeApp(firebaseConfig);
+const app = (0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(firebaseConfig);
 
 //init service
 const db = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.getFirestore)();
@@ -23284,6 +23285,7 @@ const colRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db
 // adding documents
 const addInforForm = document.querySelector(".add");
 addInforForm.addEventListener("submit", (e) => {
+  s;
   e.preventDefault();
   (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.addDoc)(colRef, {
     account_number: addInforForm.account_number.value,
@@ -23298,25 +23300,6 @@ addInforForm.addEventListener("submit", (e) => {
 });
 
 // upload image
-
-function uploadImage() {
-  const ref = firebase.storage().ref();
-  const file = document.querySelector("#photo").files[0];
-  const name = new Date() + "-" + file.name;
-  const metadata = {
-    contentType: file.type,
-  };
-
-  const task = ref.child(name).put(file, metadata);
-  task
-    .then((snapshot) => snapshot.ref.getDownloadURL())
-    .then((url) => {
-      console.log("URL:", url);
-      alert("Image Upload Successful");
-      const image = document.querySelector("#image");
-      image.src = url;
-    });
-}
 
 // deleting documents
 // const deleteInforForm = document.querySelector(".delete");
