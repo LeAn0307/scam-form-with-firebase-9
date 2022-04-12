@@ -56,28 +56,210 @@
             <div id="field" class="grid-container">
                 <label class="w-label grid-item" for="account_number">Số tài khoản:</label>
                 <input class="w-input grid-item" type="text" name="account_number" required>
+
+
             </div>
-            <br />
-            <!-- <div class="p-20"><button class="btn">Gửi</button></div> -->
+            <!-- <br /> -->
+
+            <!-- upload 1 -->
+            <div class="text-left grid-container">
+                <label class="w-label grid-item" style="padding-top: 20px;" for="account_number">CMND:</label>
+                <div style="display: none;">
+                    <label>Image Name</label> <input class="w-input" style="width: 75%;" type="text" id="namebox">
+                    <label id="extlab"></label>
+                </div>
+
+                <br><br>
+                <div class="text-center"><img id="myimg"> <label id="upprogress"></label> <br><br>
+                    <button id="selbtn">Select Image</button>
+                    <button id="upbtn">Upload Image</button>
+                    <button id="downbtn" style="display: none;">Retrieve Image</button>
+                </div>
+
+            </div>
+
+            <!-- UPLOAD 2 -->
+            <!-- <div class="text-left">
+                <div style="display: none;">
+                    <label>Image Name</label> <input class="w-input" style="width: 75%;" type="text" id="namebox2">
+                    <label id="extlab2"></label>
+                </div>
+
+                <br><br>
+                <img id="myimg2"> <label id="upprogress2"></label> <br><br>
+                <button id="selbtn2">Select Image</button>
+                <button id="upbtn2">Upload Image</button>
+                <button id="downbtn2" style="display: none;">Retrieve Image</button>
+            </div> -->
+            <!-- SUBMIT -->
+            <div class="p-20" style="margin-top:20px"><button class="btn-send">Gửi</button></div>
         </form>
     </div>
 
 
-    <!-- upload -->
-    <div>
-        <input type="file" id="photo">
-        <img id="image" />
-        <button onclick="uploadImage()">Upload Image</button>
-    </div>
 
-    <!-- <form class="delete">
-        <label for="id">Document id:</label>
-        <input type="text" name="id" required>
-        <button>delete a book</button>
-    </form> -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD6NVGvqE9w5yUd745aGpieGk34sAcmm0k",
+            authDomain: "scam-form-firebase-9.firebaseapp.com",
+            projectId: "scam-form-firebase-9",
+            storageBucket: "scam-form-firebase-9.appspot.com",
+            messagingSenderId: "269036197931",
+            appId: "1:269036197931:web:78f8a85ada87719ba5726e"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        import { getStorage, ref as sRef, uploadBytesResumable }
+            from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js"
+
+        //JS UPLOAD IMG 1
+        //---VARIABLES & REFERENCES-
+        var files = [];
+        var reader = new FileReader();
+        var namebox = document.getElementById('namebox');
+        var extlab = document.getElementById('extlab');
+        var myimg = document.getElementById('myimg');
+        var proglab = document.getElementById('upprogress');
+        var SelBtn = document.getElementById('selbtn');
+        var UpBtn = document.getElementById('upbtn');
+        var DownBtn = document.getElementById('downbtn');
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.onchange = e => {
+            files = e.target.files;
+            var extention = GetFileExt(files[0]);
+            var name = GetFileName(files[0]);
+            namebox.value = name;
+            extlab.innerHTML = extention;
+            reader.readAsDataURL(files[0]);
+        }
+        reader.onload = function () {
+            myimg.src = reader.result;
+        }
+        //        ----   SELECTION  ----------
+        SelBtn.onclick = function () {
+            input.click();
+        }
+        function GetFileExt(file) {
+            var temp = file.name.split('.');
+            var ext = temp.slice((temp.length - 1), (temp.length));
+            return '.' + ext[0];
+        }
+        function GetFileName(file) {
+            var temp = file.name.split('.');
+            var fname = temp.slice(0, -1).join('.');
+            return fname;
+        }
+        //UPLOAD PROCESS 
+        async function UploadProcess() {
+            var ImgToUpload = files[0];
+            var ImgName = namebox.value + extlab.innerHTML;
+
+            const metaData = {
+                contentType: ImgToUpload.type
+            }
+
+            const storage = getStorage();
+            const stroageRef = sRef(storage, "Images/" + ImgName);
+            const UploadTask = uploadBytesResumable(stroageRef, ImgToUpload, metaData);
+
+            UploadTask.on('state-changed', (snapshot) => {
+                var progess = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                proglab.innerHTML = "Upload " + progess + "%";
+            },
+                (error) => {
+                    alert("error: image not uploaded!");
+                },
+                () => {
+                    getDownloadURL(UploadTask.snapshot.ref).then((downloadURL) => {
+                        console.log(downloadURL);
+                    })
+                })
+        }
+
+        UpBtn.onclick = UploadProcess;
+
+
+
+        //JS UPLOAD IMG 2
+        //---VARIABLES & REFERENCES-
+        // var files2 = [];
+        // var reader2 = new FileReader();
+        // var namebox2 = document.getElementById('namebox2');
+        // var extlab2 = document.getElementById('extlab2');
+        // var myimg2 = document.getElementById('myimg2');
+        // var proglab2 = document.getElementById('upprogress2');
+        // var SelBtn2 = document.getElementById('selbtn2');
+        // var UpBtn2 = document.getElementById('upbtn2');
+        // var DownBtn2 = document.getElementById('downbtn2');
+        // var input2 = document.createElement('input2');
+        // input2.type = 'file';
+        // input2.onchange = e => {
+        //     files2 = e.target.files;
+        //     var extention = GetFileExt(files2[0]);
+        //     var name = GetFileName(files2[0]);
+        //     namebox.value = name;
+        //     extlab2.innerHTML = extention;
+        //     reader.readAsDataURL(files2[0]);
+        // }
+        // reader2.onload = function () {
+        //     myimg2.src = reader2.result;
+        // }
+        // //        ----   SELECTION  ----------
+        // SelBtn2.onclick = function () {
+        //     input2.click();
+        // }
+        // function GetFileExt2(file) {
+        //     var temp2 = file.name.split('.');
+        //     var ext2 = temp.slice((temp2.length - 1), (temp2.length));
+        //     return '.' + ext2[0];
+        // }
+        // function GetFileName2(file) {
+        //     var temp2 = file.name.split('.');
+        //     var fname2 = temp.slice(0, -1).join('.');
+        //     return fname2;
+        // }
+        // //UPLOAD PROCESS
+        // async function UploadProcess2() {
+        //     var ImgToUpload2 = files2[0];
+        //     var ImgName2 = namebox2.value + extlab2.innerHTML;
+
+        //     const metaData2 = {
+        //         contentType: ImgToUpload2.type
+        //     }
+
+        //     const storage2 = getStorage();
+        //     const stroageRef2 = sRef(storage2, "Images/" + ImgName2);
+        //     const UploadTask2 = uploadBytesResumable(stroageRef2, ImgToUpload2, metaData2);
+
+        //     UploadTask2.on('state-changed', (snapshot) => {
+        //         var progess2 = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        //         proglab2.innerHTML = "Upload " + progess2 + "%";
+        //     },
+        //         (error) => {
+        //             alert("error: image not uploaded!");
+        //         },
+        //         () => {
+        //             getDownloadURL(UploadTask2.snapshot.ref).then((downloadURL) => {
+        //                 console.log(downloadURL);
+        //             })
+        //         })
+        // }
+
+        // UpBtn2.onclick = UploadProcess2;
+
+    </script>
+
+
     <script src="./bundle.js"></script>
 </body>
 
 </html>
+//
+//
 <!-- $ npm run build
-     $npm run start:build -->
+//      $npm run start:build -->

@@ -18,7 +18,8 @@ const firebaseConfig = {
 };
 
 //init firebase app
-initializeApp(firebaseConfig);
+// initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 //init service
 const db = getFirestore();
@@ -45,6 +46,7 @@ getDocs(colRef)
 // adding documents
 const addInforForm = document.querySelector(".add");
 addInforForm.addEventListener("submit", (e) => {
+  s;
   e.preventDefault();
   addDoc(colRef, {
     account_number: addInforForm.account_number.value,
@@ -59,25 +61,6 @@ addInforForm.addEventListener("submit", (e) => {
 });
 
 // upload image
-
-function uploadImage() {
-  const ref = firebase.storage().ref();
-  const file = document.querySelector("#photo").files[0];
-  const name = new Date() + "-" + file.name;
-  const metadata = {
-    contentType: file.type,
-  };
-
-  const task = ref.child(name).put(file, metadata);
-  task
-    .then((snapshot) => snapshot.ref.getDownloadURL())
-    .then((url) => {
-      console.log("URL:", url);
-      alert("Image Upload Successful");
-      const image = document.querySelector("#image");
-      image.src = url;
-    });
-}
 
 // deleting documents
 // const deleteInforForm = document.querySelector(".delete");

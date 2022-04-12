@@ -42,7 +42,7 @@ html {
 .ml-80{
     margin-left: 80px;;
 }
-.btn{
+.btn-send{
 text-decoration: none;
 padding: 10px 20px;
     border-radius: 20px;
@@ -62,6 +62,13 @@ font-size: inherit;
 .grid-item {
     /* width: 100%; */
     text-align: left;
+}
+#myimg, #myimg2{
+ 
+    height: 200px;
+    width: 200px;
+    border: 2px rgb(114, 114, 117) solid;
+    border-radius: 11px;
 }
 /* //component */  
 
@@ -88,4 +95,12 @@ font-size: inherit;
 #field{
     margin-top: 1px;
     margin-bottom: 1px;
+}
+.selbtn, .upbtn{
+background-color: grey;
+border: 0px solid grey;
+text-decoration: none;
+}
+.bg{
+    width: 100%;
 }
