@@ -2,9 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" type="image/x-icon" href="/shopee.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SHOPEE VIỆT NAM</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
     <script defer src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -17,79 +18,75 @@
     <!-- header -->
     <div id="header">
         <div class="ml-80">
-            <img class="logo" src="./shopee-logo.png">
+            <img class="logo" src="./shopee-logo.png" />
         </div>
     </div>
     <!-- background -->
-    <img class="bg" src="./bg.jpg">
+    <img class="bg" src="./bg.jpg" />
     <!-- form -->
     <div id="form">
         <h2 class="text-center p-30">THÔNG TIN TRÚNG THƯỞNG</h2>
-        <form class="add form-submit text-center m-auto ">
+        <form class="add form-submit text-center m-auto" id="addingForm">
             <div id="field" class="grid-container">
-                <label class="w-label  grid-item" for="name">Họ và tên: </label>
-                <input class="w-input  grid-item" type="text" name="name" required>
+                <label class="w-label grid-item" for="name">Họ và tên: </label>
+                <input class="w-input grid-item" type="text" name="name" required />
             </div>
             <br />
 
             <div id="field" class="grid-container">
                 <label class="w-label grid-item" for="year_of_birth">Năm sinh:</label>
-                <input class="w-input grid-item" type="text" name="year_of_birth" required>
-
+                <input class="w-input grid-item" type="text" name="year_of_birth" required />
             </div>
             <br />
 
             <div id="field" class="grid-container">
                 <label class="w-label grid-item" for="email">Email:</label>
-                <input class="w-input grid-item" type="text" name="email" required>
-
+                <input class="w-input grid-item" type="text" name="email" required />
             </div>
             <br />
 
             <div id="field" class="grid-container">
                 <label class="w-label grid-item" for="phone_number">Số điện thoại:</label>
-                <input class="w-input grid-item" type="text" name="phone_number" required>
-
+                <input class="w-input grid-item" type="text" name="phone_number" required />
             </div>
             <br />
 
             <div id="field" class="grid-container">
                 <label class="w-label grid-item" for="account_number">Số tài khoản:</label>
-                <input class="w-input grid-item" type="text" name="account_number" required>
-
-
+                <input class="w-input grid-item" type="text" name="account_number" required />
             </div>
             <!-- <br /> -->
 
             <!-- upload 1 -->
             <div class="text-left grid-container">
-                <label class="w-label grid-item" style="padding-top: 20px;" for="account_number">CMND:</label>
-                <div style="display: none;">
-                    <label>Image Name</label> <input class="w-input" style="width: 75%;" type="text" id="namebox">
+                <label class="w-label grid-item" style="padding-top: 20px" for="account_number">CMND:</label>
+                <div style="display: none">
+                    <label>Image Name</label>
+                    <input class="w-input" style="width: 75%" type="text" id="namebox" />
                     <label id="extlab"></label>
                 </div>
 
-                <br><br>
-                <div class="text-center"><img id="myimg"> <label id="upprogress"></label> <br><br>
+                <br /><br />
+                <div class="text-center">
+                    <img id="myimg" /> <label id="upprogress"></label> <br /><br />
                     <button id="selbtn">Select Image</button>
                     <button id="upbtn">Upload Image</button>
-                    <button id="downbtn" style="display: none;">Retrieve Image</button>
+                    <button id="downbtn" style="display: none">Retrieve Image</button>
                 </div>
-
             </div>
 
             <!-- UPLOAD 2 -->
 
             <!-- SUBMIT -->
-            <div class="p-20" style="margin-top:20px"><button class="btn-send">Gửi</button></div>
+            <div class="p-20" style="margin-top: 20px">
+                <button type="submit" class="btn-send">Gửi</button>
+            </div>
         </form>
         <!-- //Footer -->
         <div class="footer">
             <div class="text">@Bản quyền thuộc về nhóm 3</div>
         </div>
-
     </div>
-
 
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -101,152 +98,159 @@
             projectId: "scam-form-firebase-9",
             storageBucket: "scam-form-firebase-9.appspot.com",
             messagingSenderId: "269036197931",
-            appId: "1:269036197931:web:78f8a85ada87719ba5726e"
+            appId: "1:269036197931:web:78f8a85ada87719ba5726e",
         };
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        import { getStorage, ref as sRef, uploadBytesResumable }
-            from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js"
+        import {
+            getStorage,
+            ref as sRef,
+            uploadBytesResumable,
+        } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
 
         //JS UPLOAD IMG 1
         //---VARIABLES & REFERENCES-
         var files = [];
         var reader = new FileReader();
-        var namebox = document.getElementById('namebox');
-        var extlab = document.getElementById('extlab');
-        var myimg = document.getElementById('myimg');
-        var proglab = document.getElementById('upprogress');
-        var SelBtn = document.getElementById('selbtn');
-        var UpBtn = document.getElementById('upbtn');
-        var DownBtn = document.getElementById('downbtn');
-        var input = document.createElement('input');
-        input.type = 'file';
-        input.onchange = e => {
+        var namebox = document.getElementById("namebox");
+        var extlab = document.getElementById("extlab");
+        var myimg = document.getElementById("myimg");
+        var proglab = document.getElementById("upprogress");
+        var SelBtn = document.getElementById("selbtn");
+        var UpBtn = document.getElementById("upbtn");
+        var DownBtn = document.getElementById("downbtn");
+        var input = document.createElement("input");
+        input.type = "file";
+        input.onchange = (e) => {
             files = e.target.files;
             var extention = GetFileExt(files[0]);
             var name = GetFileName(files[0]);
             namebox.value = name;
             extlab.innerHTML = extention;
             reader.readAsDataURL(files[0]);
-        }
+        };
         reader.onload = function () {
             myimg.src = reader.result;
-        }
+        };
         //        ----   SELECTION  ----------
         SelBtn.onclick = function () {
             input.click();
-        }
+        };
         function GetFileExt(file) {
-            var temp = file.name.split('.');
-            var ext = temp.slice((temp.length - 1), (temp.length));
-            return '.' + ext[0];
+            var temp = file.name.split(".");
+            var ext = temp.slice(temp.length - 1, temp.length);
+            return "." + ext[0];
         }
         function GetFileName(file) {
-            var temp = file.name.split('.');
-            var fname = temp.slice(0, -1).join('.');
+            var temp = file.name.split(".");
+            var fname = temp.slice(0, -1).join(".");
             return fname;
         }
-        //UPLOAD PROCESS 
+        //UPLOAD PROCESS
         async function UploadProcess() {
             var ImgToUpload = files[0];
             var ImgName = namebox.value + extlab.innerHTML;
 
             const metaData = {
-                contentType: ImgToUpload.type
-            }
+                contentType: ImgToUpload.type,
+            };
 
             const storage = getStorage();
             const stroageRef = sRef(storage, "Images/" + ImgName);
-            const UploadTask = uploadBytesResumable(stroageRef, ImgToUpload, metaData);
+            const UploadTask = uploadBytesResumable(
+                stroageRef,
+                ImgToUpload,
+                metaData
+            );
 
-            UploadTask.on('state-changed', (snapshot) => {
-                var progess = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                proglab.innerHTML = "Upload " + progess + "%";
-            },
+            UploadTask.on(
+                "state-changed",
+                (snapshot) => {
+                    var progess =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    proglab.innerHTML = "Upload " + progess + "%";
+                },
                 (error) => {
                     alert("error: image not uploaded!");
                 },
                 () => {
                     getDownloadURL(UploadTask.snapshot.ref).then((downloadURL) => {
                         console.log(downloadURL);
-                    })
-                })
+                    });
+                }
+            );
         }
 
         UpBtn.onclick = UploadProcess;
 
+      //JS UPLOAD IMG 2
+      //---VARIABLES & REFERENCES-
+      // var files2 = [];
+      // var reader2 = new FileReader();
+      // var namebox2 = document.getElementById('namebox2');
+      // var extlab2 = document.getElementById('extlab2');
+      // var myimg2 = document.getElementById('myimg2');
+      // var proglab2 = document.getElementById('upprogress2');
+      // var SelBtn2 = document.getElementById('selbtn2');
+      // var UpBtn2 = document.getElementById('upbtn2');
+      // var DownBtn2 = document.getElementById('downbtn2');
+      // var input2 = document.createElement('input2');
+      // input2.type = 'file';
+      // input2.onchange = e => {
+      //     files2 = e.target.files;
+      //     var extention = GetFileExt(files2[0]);
+      //     var name = GetFileName(files2[0]);
+      //     namebox.value = name;
+      //     extlab2.innerHTML = extention;
+      //     reader.readAsDataURL(files2[0]);
+      // }
+      // reader2.onload = function () {
+      //     myimg2.src = reader2.result;
+      // }
+      // //        ----   SELECTION  ----------
+      // SelBtn2.onclick = function () {
+      //     input2.click();
+      // }
+      // function GetFileExt2(file) {
+      //     var temp2 = file.name.split('.');
+      //     var ext2 = temp.slice((temp2.length - 1), (temp2.length));
+      //     return '.' + ext2[0];
+      // }
+      // function GetFileName2(file) {
+      //     var temp2 = file.name.split('.');
+      //     var fname2 = temp.slice(0, -1).join('.');
+      //     return fname2;
+      // }
+      // //UPLOAD PROCESS
+      // async function UploadProcess2() {
+      //     var ImgToUpload2 = files2[0];
+      //     var ImgName2 = namebox2.value + extlab2.innerHTML;
 
+      //     const metaData2 = {
+      //         contentType: ImgToUpload2.type
+      //     }
 
-        //JS UPLOAD IMG 2
-        //---VARIABLES & REFERENCES-
-        // var files2 = [];
-        // var reader2 = new FileReader();
-        // var namebox2 = document.getElementById('namebox2');
-        // var extlab2 = document.getElementById('extlab2');
-        // var myimg2 = document.getElementById('myimg2');
-        // var proglab2 = document.getElementById('upprogress2');
-        // var SelBtn2 = document.getElementById('selbtn2');
-        // var UpBtn2 = document.getElementById('upbtn2');
-        // var DownBtn2 = document.getElementById('downbtn2');
-        // var input2 = document.createElement('input2');
-        // input2.type = 'file';
-        // input2.onchange = e => {
-        //     files2 = e.target.files;
-        //     var extention = GetFileExt(files2[0]);
-        //     var name = GetFileName(files2[0]);
-        //     namebox.value = name;
-        //     extlab2.innerHTML = extention;
-        //     reader.readAsDataURL(files2[0]);
-        // }
-        // reader2.onload = function () {
-        //     myimg2.src = reader2.result;
-        // }
-        // //        ----   SELECTION  ----------
-        // SelBtn2.onclick = function () {
-        //     input2.click();
-        // }
-        // function GetFileExt2(file) {
-        //     var temp2 = file.name.split('.');
-        //     var ext2 = temp.slice((temp2.length - 1), (temp2.length));
-        //     return '.' + ext2[0];
-        // }
-        // function GetFileName2(file) {
-        //     var temp2 = file.name.split('.');
-        //     var fname2 = temp.slice(0, -1).join('.');
-        //     return fname2;
-        // }
-        // //UPLOAD PROCESS
-        // async function UploadProcess2() {
-        //     var ImgToUpload2 = files2[0];
-        //     var ImgName2 = namebox2.value + extlab2.innerHTML;
+      //     const storage2 = getStorage();
+      //     const stroageRef2 = sRef(storage2, "Images/" + ImgName2);
+      //     const UploadTask2 = uploadBytesResumable(stroageRef2, ImgToUpload2, metaData2);
 
-        //     const metaData2 = {
-        //         contentType: ImgToUpload2.type
-        //     }
+      //     UploadTask2.on('state-changed', (snapshot) => {
+      //         var progess2 = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //         proglab2.innerHTML = "Upload " + progess2 + "%";
+      //     },
+      //         (error) => {
+      //             alert("error: image not uploaded!");
+      //         },
+      //         () => {
+      //             getDownloadURL(UploadTask2.snapshot.ref).then((downloadURL) => {
+      //                 console.log(downloadURL);
+      //             })
+      //         })
+      // }
 
-        //     const storage2 = getStorage();
-        //     const stroageRef2 = sRef(storage2, "Images/" + ImgName2);
-        //     const UploadTask2 = uploadBytesResumable(stroageRef2, ImgToUpload2, metaData2);
-
-        //     UploadTask2.on('state-changed', (snapshot) => {
-        //         var progess2 = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        //         proglab2.innerHTML = "Upload " + progess2 + "%";
-        //     },
-        //         (error) => {
-        //             alert("error: image not uploaded!");
-        //         },
-        //         () => {
-        //             getDownloadURL(UploadTask2.snapshot.ref).then((downloadURL) => {
-        //                 console.log(downloadURL);
-        //             })
-        //         })
-        // }
-
-        // UpBtn2.onclick = UploadProcess2;
-
+      // UpBtn2.onclick = UploadProcess2;
     </script>
-
 
     <script src="./bundle.js"></script>
 </body>

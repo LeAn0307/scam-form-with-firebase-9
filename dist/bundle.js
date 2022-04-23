@@ -23283,9 +23283,8 @@ const colRef = (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.collection)(db
   });
 
 // adding documents
-const addInforForm = document.querySelector(".add");
+const addInforForm = document.getElementById("addingForm");
 addInforForm.addEventListener("submit", (e) => {
-  s;
   e.preventDefault();
   (0,firebase_firestore__WEBPACK_IMPORTED_MODULE_1__.addDoc)(colRef, {
     account_number: addInforForm.account_number.value,

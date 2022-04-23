@@ -44,9 +44,8 @@ getDocs(colRef)
   });
 
 // adding documents
-const addInforForm = document.querySelector(".add");
+const addInforForm = document.getElementById("addingForm");
 addInforForm.addEventListener("submit", (e) => {
-  s;
   e.preventDefault();
   addDoc(colRef, {
     account_number: addInforForm.account_number.value,
